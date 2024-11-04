@@ -1,0 +1,11 @@
+stages:
+  preprocess:
+    cmd: python src/preprocess.py data.csv data_clean.csv params.yaml
+    deps:
+    - data.csv
+    - src/preprocess.py
+    params:
+    - preprocessing.features
+    - preprocessing.target
+    outs:
+    - data_clean.csv

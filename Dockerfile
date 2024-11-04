@@ -14,6 +14,3 @@ WORKDIR /usr/src/app
 
 # copy the project into container
 COPY . .
-
-# initialize dvc
-RUN dvc init

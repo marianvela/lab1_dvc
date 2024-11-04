@@ -4,4 +4,6 @@ scikit-learn
 pandas
 seaborn
 matplotlib
+PyYAML
+joblib
 optuna
