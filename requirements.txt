@@ -1,0 +1,7 @@
+dvc
+numpy
+scikit-learn
+pandas
+seaborn
+matplotlib
+optuna
