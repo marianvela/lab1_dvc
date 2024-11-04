@@ -1,0 +1,88 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocess.py data.csv data_clean.csv params.yaml
+    deps:
+    - path: data.csv
+      hash: md5
+      md5: 801f8030dad1df22a53edfdbfa4e80f0
+      size: 29981
+    - path: src/preprocess.py
+      hash: md5
+      md5: 8d5ae44c7afbb565daee3332fa3e9696
+      size: 902
+      isexec: true
+    params:
+      params.yaml:
+        preprocessing.features:
+        - area
+        - bedrooms
+        - bathrooms
+        - stories
+        - parking
+        preprocessing.target: price
+    outs:
+    - path: data_clean.csv
+      hash: md5
+      md5: acc5066acce262b679b63e3013d60c2d
+      size: 11517
+  train:
+    cmd: python src/train.py data_clean.csv models/model.joblib params.yaml
+    deps:
+    - path: data_clean.csv
+      hash: md5
+      md5: acc5066acce262b679b63e3013d60c2d
+      size: 11517
+    - path: src/train.py
+      hash: md5
+      md5: f6463a1927c8db1e06b8c44805a4ccf7
+      size: 2132
+      isexec: true
+    params:
+      params.yaml:
+        model.gradient_boosting:
+          n_estimators: 100
+          learning_rate: 0.1
+          max_depth: 3
+        model.linear_regression:
+          fit_intercept: true
+        model.random_forest:
+          n_estimators: 100
+          max_depth: 5
+        model.type: gradient_boosting
+        train:
+          test_size: 0.2
+          random_state: 42
+          alpha: 0.1
+          epochs: 50
+          batch_size: 32
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 721a57940cd9aec9a71de0ae85a19091
+      size: 189768
+  evaluate:
+    cmd: python src/evaluate.py models/model.joblib data_clean.csv params.yaml
+    deps:
+    - path: data_clean.csv
+      hash: md5
+      md5: acc5066acce262b679b63e3013d60c2d
+      size: 11517
+    - path: models/model.joblib
+      hash: md5
+      md5: 721a57940cd9aec9a71de0ae85a19091
+      size: 189768
+    - path: params.yaml
+      hash: md5
+      md5: 9ad8dfd6448fba1d17d93ea1c410558e
+      size: 504
+    - path: src/evaluate.py
+      hash: md5
+      md5: 7ac036d486d67e0a7aae9cf6af9eefae
+      size: 1372
+      isexec: true
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: e59180b34b761236521df63a94dfe9b5
+      size: 93

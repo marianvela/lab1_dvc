@@ -9,3 +9,25 @@ stages:
     - preprocessing.target
     outs:
     - data_clean.csv
+  train:
+    cmd: python src/train.py data_clean.csv models/model.joblib params.yaml
+    deps:
+    - data_clean.csv
+    - src/train.py
+    params:
+    - model.gradient_boosting
+    - model.linear_regression
+    - model.random_forest
+    - model.type
+    - train
+    outs:
+    - models/model.joblib
+  evaluate:
+    cmd: python src/evaluate.py models/model.joblib data_clean.csv params.yaml
+    deps:
+    - data_clean.csv
+    - models/model.joblib
+    - params.yaml
+    - src/evaluate.py
+    outs:
+    - metrics.json

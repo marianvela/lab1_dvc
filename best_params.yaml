@@ -1,0 +1,2 @@
+fit_intercept: false
+model_type: linear_regression

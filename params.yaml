@@ -4,12 +4,11 @@ preprocessing:
 
 
 model:
-  type: random_forest  # switch name here to select which model to test
+  type: gradient_boosting  # switch name here to select which model to test
 
   # parameters for each model
   linear_regression:
     fit_intercept: true
-    normalize: false
 
   random_forest:
     n_estimators: 100
